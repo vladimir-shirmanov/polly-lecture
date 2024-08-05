@@ -18,4 +18,4 @@ Dictionary<string, IExecutionStrategy> strategies = new Dictionary<string, IExec
     ["retry"] = new RetryStrategy()
 };
 
-strategies["custom"].Execute(op);
+strategies["retry"].Execute(op);
