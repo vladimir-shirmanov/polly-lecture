@@ -15,7 +15,8 @@ Dictionary<string, IExecutionStrategy> strategies = new Dictionary<string, IExec
 {
     ["no resiliency"] = new NoResiliencyStrategy(),
     ["custom"] = new CustomStrategy(3),
-    ["retry"] = new RetryStrategy()
+    ["retry"] = new RetryStrategy(),
+    ["timeout"] = new TimeoutStrategy()
 };
 
-strategies["retry"].Execute(op);
+strategies["timeout"].Execute(op);
