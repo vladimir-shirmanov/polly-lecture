@@ -16,7 +16,9 @@ public class CustomStrategy : IExecutionStrategy
         {
             try
             {
+                Console.WriteLine("Attempt: {0}", retryCount+1);
                 operation();
+                break;
             }
             catch (Exception e)
             {
