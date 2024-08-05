@@ -6,7 +6,7 @@ public class UnpredictableService
     {
         int chance = Random.Shared.Next(100);
 
-        if (chance < 30)
+        if (chance < 50)
         {
             throw new InvalidOperationException();
         }
