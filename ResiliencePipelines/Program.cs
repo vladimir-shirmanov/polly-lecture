@@ -1,7 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using System.Diagnostics;
-using Polly.CircuitBreaker;
 using ResiliencePipelines;
 using ResiliencePipelines.Strategies;
 
@@ -18,23 +17,8 @@ Dictionary<string, IExecutionStrategy> strategies = new Dictionary<string, IExec
     ["custom"] = new CustomStrategy(3),
     ["retry"] = new RetryStrategy(),
     ["timeout"] = new TimeoutStrategy(),
-    ["circuit"] = new CircuitBreakerStrategy()
+    ["circuit"] = new CircuitBreakerStrategy(),
+    ["fallback"] = new FallbackStrategy()
 };
 
-for (int i = 0; i < 10; i++)
-{
-    try
-    {
-        strategies["circuit"].Execute(op);
-    }
-    catch (BrokenCircuitException)
-    {
-        Thread.Sleep(1000);
-        Console.WriteLine("Waiting...");
-    }
-    catch (Exception e)
-    {
-        // for lecture purpose
-        Console.WriteLine("Exception occured {0}", e.GetType());
-    }
-}
+strategies["fallback"].Execute(op);
