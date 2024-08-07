@@ -1,4 +1,4 @@
-using Microsoft.Extensions.Http.Resilience;
+using System.Text.Json;
 using Polly;
 using Polly.Fallback;
 using Polly.Registry;
@@ -47,10 +47,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapGet("/test", async (CancellationToken cancellationToken, IExternalClient httpClient, ResiliencePipelineProvider<string> pipelineProvider) =>
+app.MapGet("/test", async (CancellationToken cancellationToken, IExternalClient externalClient, ResiliencePipelineProvider<string> pipelineProvider) =>
     {
         ResiliencePipeline<string> pipeline = pipelineProvider.GetPipeline<string>("fallback");
-        var result = await pipeline.ExecuteAsync(async token => await httpClient.GetDataFromApi(cancellationToken), cancellationToken);
+        var result = await pipeline.ExecuteAsync(async token => await externalClient.GetDataFromApi(token), cancellationToken);
         return result;
     })
     .WithName("test")
