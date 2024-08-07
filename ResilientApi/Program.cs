@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Http.Resilience;
 using Polly;
 using Polly.Fallback;
 using Polly.Registry;
@@ -32,6 +33,9 @@ builder.Services.AddResiliencePipeline<string, string>("fallback", pipelineBuild
         Timeout = TimeSpan.FromSeconds(1)
     }));
 
+builder.Services.AddHttpClient<GoogleClient>()
+    .AddStandardResilienceHandler();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -53,3 +57,13 @@ app.MapGet("/test", async (CancellationToken cancellationToken, IExternalClient 
     .WithOpenApi();
 
 app.Run();
+
+public class GoogleClient
+{
+    private readonly HttpClient _httpClient;
+
+    public GoogleClient(HttpClient httpClient)
+    {
+        _httpClient = httpClient;
+    }
+}
