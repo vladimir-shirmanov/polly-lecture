@@ -40,4 +40,9 @@ public class RetryStrategy : IExecutionStrategy
             .Build();
         pipeline.Execute(operation);
     }
+
+    public Task ExecuteAsync(Func<CancellationToken, Task<string>> operation)
+    {
+        throw new NotImplementedException();
+    }
 }

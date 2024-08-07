@@ -6,4 +6,9 @@ public class NoResiliencyStrategy : IExecutionStrategy
     {
         operation();
     }
+
+    public Task ExecuteAsync(Func<CancellationToken, Task<string>> operation)
+    {
+        throw new NotImplementedException();
+    }
 }

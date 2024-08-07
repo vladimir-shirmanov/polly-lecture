@@ -20,4 +20,9 @@ public class FallbackStrategy : IExecutionStrategy
         string result = _pipeline.Execute(operation);
         Console.WriteLine("Here what we get as a result: {0}", result);
     }
+
+    public Task ExecuteAsync(Func<CancellationToken, Task<string>> operation)
+    {
+        throw new NotImplementedException();
+    }
 }

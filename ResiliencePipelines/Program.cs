@@ -11,6 +11,8 @@ Func<string> op = () =>
     Console.WriteLine("{0}. elapsed seconds: {1:F}", result, stopwatch.ElapsedMilliseconds/1000);
     return result;
 };
+
+Func<CancellationToken, Task<string>> cacheOp = ctx => new UnpredictableService().CallSlowCache(ctx);
 Dictionary<string, IExecutionStrategy> strategies = new Dictionary<string, IExecutionStrategy>()
 {
     ["no resiliency"] = new NoResiliencyStrategy(),
@@ -18,7 +20,8 @@ Dictionary<string, IExecutionStrategy> strategies = new Dictionary<string, IExec
     ["retry"] = new RetryStrategy(),
     ["timeout"] = new TimeoutStrategy(),
     ["circuit"] = new CircuitBreakerStrategy(),
-    ["fallback"] = new FallbackStrategy()
+    ["fallback"] = new FallbackStrategy(),
+    ["hedging"] = new HedgeStrategy()
 };
 
-strategies["fallback"].Execute(op);
+await strategies["hedging"].ExecuteAsync(async ctx => await cacheOp(ctx));

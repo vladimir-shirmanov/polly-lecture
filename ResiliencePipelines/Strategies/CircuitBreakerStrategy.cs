@@ -25,4 +25,9 @@ public class CircuitBreakerStrategy : IExecutionStrategy
     {
         _pipeline.Execute(operation);
     }
+
+    public Task ExecuteAsync(Func<CancellationToken, Task<string>> operation)
+    {
+        throw new NotImplementedException();
+    }
 }

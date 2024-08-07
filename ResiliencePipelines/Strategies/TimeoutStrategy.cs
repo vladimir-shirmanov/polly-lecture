@@ -32,4 +32,9 @@ public class TimeoutStrategy : IExecutionStrategy
         // will do retries and if operation takes > 3 sec throws timeout
         pipeline.Execute(operation);
     }
+
+    public Task ExecuteAsync(Func<CancellationToken, Task<string>> operation)
+    {
+        throw new NotImplementedException();
+    }
 }

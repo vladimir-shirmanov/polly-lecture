@@ -26,4 +26,9 @@ public class CustomStrategy : IExecutionStrategy
             }
         } while (retryCount < _numOfRetries);
     }
+
+    public Task ExecuteAsync(Func<CancellationToken, Task<string>> operation)
+    {
+        throw new NotImplementedException();
+    }
 }
